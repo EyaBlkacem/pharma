@@ -1,0 +1,20 @@
+{% extends 'pharma_app/base.html' %}
+{% block content %}
+<h2>Ajouter un Produit</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+</form>
+
+{% endblock %}
+
+

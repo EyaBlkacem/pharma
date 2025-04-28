@@ -1,0 +1,91 @@
+{% extends 'pharma_app/base.html' %}
+
+{% block content %}
+<!-- Animate.css CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    /* Effet de survol sur les cartes */
+    .card:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
+    /* Animation d'apparition */
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive design */
+    @media (max-width: 767px) {
+        .card {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
+<div class="container text-center mt-5">
+    <h1 class="display-4 mb-4 animate__animated animate__fadeInDown">Bienvenue sur <span style="color: #28a745;">PharmaApp</span> !</h1>
+    <p class="lead mb-5 animate__animated animate__fadeInUp">Votre solution moderne pour la gestion de pharmacie : produits, ventes et statistiques en un clic.</p>
+
+    <div class="row">
+        <!-- Carte Produits -->
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card bg-dark text-white h-100 shadow-sm fade-in-up">
+                <div class="card-body">
+                    <i class="fas fa-pills fa-3x mb-3"></i>
+                    <h5 class="card-title">Gérez vos Produits</h5>
+                    <p class="card-text">Ajoutez, modifiez et consultez facilement tous vos médicaments.</p>
+                    <a href="{% url 'liste_produits' %}" class="btn btn-success position-relative">
+                        Voir Produits
+                        {% if total_produits %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ total_produits }}
+                        </span>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Ventes -->
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card bg-dark text-white h-100 shadow-sm fade-in-up">
+                <div class="card-body">
+                    <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+                    <h5 class="card-title">Effectuez des Ventes</h5>
+                    <p class="card-text">Enregistrez rapidement vos ventes en quelques secondes.</p>
+                    <a href="{% url 'vente' %}" class="btn btn-success">Commencer Vente</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Statistiques -->
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card bg-dark text-white h-100 shadow-sm fade-in-up">
+                <div class="card-body">
+                    <i class="fas fa-chart-line fa-3x mb-3"></i>
+                    <h5 class="card-title">Analysez vos Statistiques</h5>
+                    <p class="card-text">Consultez les performances et les ventes de votre pharmacie.</p>
+                    <a href="{% url 'statistiques' %}" class="btn btn-success">Voir Statistiques</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section À propos -->
+    <div class="mt-5 fade-in-up">
+        <h2 class="mb-3" style="color: #28a745;">Pourquoi choisir PharmaApp ?</h2>
+        <p class="lead">PharmaApp vous offre une interface intuitive et moderne pour gérer efficacement votre pharmacie, suivre vos ventes et analyser vos performances en toute simplicité.</p>
+    </div>
+</div>
+{% endblock %}

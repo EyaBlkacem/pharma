@@ -1,0 +1,136 @@
+{% extends 'pharma_app/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    .card:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .search-input {
+        background-color: #343a40;
+        border: 1px solid #28a745;
+        color: white;
+    }
+
+    .search-input::placeholder {
+        color: #ccc;
+    }
+
+    .search-input:focus {
+        background-color: #343a40;
+        color: white;
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+</style>
+
+<div class="container mt-5 text-center">
+    <h1 class="display-4 mb-4 animate__animated animate__fadeInDown">
+        <i class="fas fa-shopping-cart"></i> Vente de Produits
+    </h1>
+
+    <!-- Barre de recherche -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" class="form-control search-input" placeholder="Rechercher un produit..." onkeyup="filterProducts()">
+    </div>
+
+    <div class="row justify-content-center fade-in-up">
+        <div class="col-md-8">
+            <div class="card bg-dark text-white shadow-sm">
+                <div class="card-body">
+
+                    <!-- Liste déroulante -->
+                    <div class="mb-3">
+                        <select id="productSelect" class="form-select bg-dark text-white" onchange="showDetails()">
+                            <option value="">-- Sélectionnez un produit --</option>
+                            <option value="1" data-price="5" data-description="Paracétamol 500mg">Doliprane</option>
+                            <option value="2" data-price="10" data-description="Antibiotique large spectre">Amoxicilline</option>
+                            <option value="3" data-price="7" data-description="Antihistaminique">Zyrtec</option>
+                        </select>
+                    </div>
+
+                    <!-- Détails du produit -->
+                    <div id="productDetails" style="display: none;" class="mt-4">
+                        <h5>Détails du produit :</h5>
+                        <p id="description"></p>
+                        <p><strong>Prix : </strong><span id="price"></span> €</p>
+                        <button class="btn btn-success" onclick="addToCart()">Ajouter au panier</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panier -->
+    <div class="row justify-content-center fade-in-up mt-5">
+        <div class="col-md-8">
+            <div class="card bg-dark text-white shadow-sm">
+                <div class="card-body">
+                    <h5><i class="fas fa-shopping-basket"></i> Mon Panier</h5>
+                    <ul id="cartItems" class="list-group list-group-flush bg-dark mt-3"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filterProducts() {
+    var input = document.getElementById("searchInput").value.toUpperCase();
+    var select = document.getElementById("productSelect");
+    for (var i = 0; i < select.options.length; i++) {
+        var option = select.options[i];
+        var text = option.textContent || option.innerText;
+        if (text.toUpperCase().indexOf(input) > -1 || option.value === "") {
+            option.style.display = "";
+        } else {
+            option.style.display = "none";
+        }
+    }
+}
+
+function showDetails() {
+    var select = document.getElementById("productSelect");
+    var selectedOption = select.options[select.selectedIndex];
+    
+    if (selectedOption.value !== "") {
+        document.getElementById("productDetails").style.display = "block";
+        document.getElementById("description").innerText = selectedOption.getAttribute("data-description");
+        document.getElementById("price").innerText = selectedOption.getAttribute("data-price");
+    } else {
+        document.getElementById("productDetails").style.display = "none";
+    }
+}
+
+function addToCart() {
+    var select = document.getElementById("productSelect");
+    var selectedOption = select.options[select.selectedIndex];
+    var cart = document.getElementById("cartItems");
+    
+    var item = document.createElement("li");
+    item.className = "list-group-item bg-dark text-white";
+    item.textContent = selectedOption.text + " - " + selectedOption.getAttribute("data-price") + "€";
+    cart.appendChild(item);
+
+    alert("Produit ajouté au panier !");
+}
+</script>
+
+{% endblock %}
