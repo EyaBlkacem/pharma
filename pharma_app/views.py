@@ -18,6 +18,12 @@ def statistiques(request):
     return render(request, 'pharma_app/statistiques.html')
 
 
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+
 def signup_view(request):
     if request.method == 'POST':
         username = request.POST['username']

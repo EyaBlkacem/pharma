@@ -11,6 +11,8 @@ urlpatterns = [
   path('vente/', views.vente, name='vente'), 
   path('statistiques/', views.statistiques, name='statistiques'), 
 path('signup/', views.signup_view, name='signup'),
+path('logout/', views.logout_view, name='logout'),
+
 
 
 ]
