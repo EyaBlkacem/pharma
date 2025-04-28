@@ -1,42 +1,28 @@
 {% extends 'pharma_app/base.html' %}
+
 {% block content %}
-
-<!-- Animate.css pour les effets -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
 <div class="container mt-5">
-    <h2 class="text-center mb-4 animate__animated animate__fadeInDown">Liste des Produits</h2>
+    <h2 class="text-center mb-4">Ajouter un Nouveau Produit</h2>
 
-    <div class="row">
-        {% for produit in produits %}
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card bg-dark text-white shadow-sm h-100 fade-in-up">
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ produit.nom }}</h5>
-                    <p class="card-text">{{ produit.description|truncatewords:10 }}</p>
-                    <p class="card-text"><strong>Prix :</strong> {{ produit.prix }} €</p>
-
-                    <div class="d-flex justify-content-center gap-3 mt-3">
-                        <!-- Bouton Modifier -->
-                        <a href="{% url 'modifier_produit' produit.id %}" class="btn btn-outline-warning btn-sm">
-                            <i class="fas fa-edit"></i>
-                        </a>
-
-                        <!-- Bouton Supprimer -->
-                        <a href="{% url 'supprimer_produit' produit.id %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Confirmer la suppression ?')">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </div>
-
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark text-white shadow">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Ajouter
+                            </button>
+                            <a href="{% url 'liste_produits' %}" class="btn btn-secondary">
+                                Annuler
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <div class="col-12">
-            <p class="text-center">Aucun produit disponible.</p>
-        </div>
-        {% endfor %}
     </div>
 </div>
-
 {% endblock %}
